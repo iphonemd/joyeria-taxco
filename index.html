@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAXCO | Colección de Joyería Fina</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@200;300;400;500&display=swap');
+        
+        :root {
+            --primary-color: #f8f5f2;
+            --secondary-color: #1a1a1a;
+            --accent-color: #c0aa83;
+            --text-color: #333333;
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+        
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 0;
+            z-index: 1000;
+            transition: var(--transition);
+            background-color: rgba(248, 245, 242, 0.9);
+            backdrop-filter: blur(10px);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            letter-spacing: 3px;
+            color: var(--secondary-color);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--text-color);
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .language-switch {
+            display: flex;
+            align-items: center;
+            margin-left: 2rem;
+            cursor: pointer;
+            padding: 0.3rem 0.8rem;
+            border: 1px solid var(--secondary-color);
+            transition: var(--transition);
+        }
+        
+        .language-switch:hover {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+        }
+        
+        .language-switch span {
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 600px;
+        }
+        
+        .hero h1 {
+            font-size: 4.5rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--secondary-color);
+        }
+        
+        .hero p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            font-weight: 300;
+            max-width: 450px;
+        }
+        
+        .hero-btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            border: 1px solid var(--secondary-color);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: var(--transition);
+            background: transparent;
+        }
+        
+        .hero-btn:hover {
+            background: var(--secondary-color);
+            color: var(--primary-color);
+        }
+        
+        .hero-image {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 60%;
+            height: 100%;
+            clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 0% 100%);
+        }
+        
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Collection Section */
+        .collection {
+            padding: 10rem 0;
+        }
+        
+        .collection-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+        
+        .collection-header h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+        
+        .collection-header p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+        
+        .collection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+        }
+        
+        .collection-item {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 1 / 1.3;
+            cursor: pointer;
+        }
+        
+        .collection-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        
+        .collection-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .collection-item-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+            color: white;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .collection-item:hover .collection-item-info {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .collection-item-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .collection-item-info p {
+            font-size: 0.9rem;
+            font-weight: 300;
+        }
+        
+        /* Featured Section */
+        .featured {
+            padding: 5rem 0;
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+        }
+        
+        .featured-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .featured-header h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .featured-content {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+        }
+        
+        .featured-image {
+            flex: 1;
+            position: relative;
+            height: 600px;
+        }
+        
+        .featured-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .featured-text {
+            flex: 1;
+        }
+        
+        .featured-text h3 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .featured-text p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            font-weight: 300;
+            line-height: 1.8;
+        }
+        
+        .featured-btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            border: 1px solid var(--primary-color);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: var(--transition);
+            background: transparent;
+        }
+        
+        .featured-btn:hover {
+            background: var(--primary-color);
+            color: var(--secondary-color);
+        }
+        
+        /* Story Section */
+        .story {
+            padding: 10rem 0;
+        }
+        
+        .story-content {
+            display: flex;
+            gap: 4rem;
+            align-items: center;
+        }
+        
+        .story-text {
+            flex: 1;
+        }
+        
+        .story-text h2 {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            color: var(--secondary-color);
+        }
+        
+        .story-text p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+            line-height: 1.8;
+        }
+        
+        .story-images {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        
+        .story-image {
+            position: relative;
+            aspect-ratio: 1;
+            overflow: hidden;
+        }
+        
+        .story-image:nth-child(1) {
+            grid-column: 1 / 2;
+            grid-row: 1 / 3;
+            aspect-ratio: 0.8;
+        }
+        
+        .story-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Newsletter */
+        .newsletter {
+            padding: 5rem 0;
+            background-color: var(--accent-color);
+            color: white;
+            text-align: center;
+        }
+        
+        .newsletter h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .newsletter p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            font-weight: 300;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .newsletter-form input {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            border: none;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+        }
+        
+        .newsletter-form button {
+            padding: 0 1.5rem;
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Footer */
+        footer {
+            padding: 5rem 0 2rem;
+            background-color: var(--primary-color);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+        
+        .footer-text {
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .footer-social a {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        
+        .footer-social a:hover {
+            background-color: var(--accent-color);
+        }
+        
+        .footer-title {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary-color);
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        .footer-links a {
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        .footer-contact {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .contact-item {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+        
+        .contact-icon {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+        }
+        
+        .contact-text {
+            font-size: 0.9rem;
+            font-weight: 300;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            font-size: 0.8rem;
+        }
+        
+        /* Language Styles */
+        .hidden {
+            display: none !important;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        
+        /* Cursor */
+        .custom-cursor {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            border: 1px solid var(--secondary-color);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
+            z-index: 9999;
+            mix-blend-mode: difference;
+        }
+        
+        .custom-cursor.grow {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Loading Animation */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--primary-color);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s;
+        }
+        
+        .loading-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            color: var(--secondary-color);
+            position: relative;
+        }
+        
+        .loading-text::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--secondary-color);
+            animation: loadingBar 3s forwards;
+        }
+        
+        @keyframes loadingBar {
+            to {
+                width: 100%;
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+            
+            .featured-content {
+                flex-direction: column;
+            }
+            
+            .featured-image {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .hero {
+                height: auto;
+                padding: 10rem 0 5rem;
+            }
+            
+            .hero-image {
+                position: relative;
+                width: 100%;
+                height: 60vh;
+                clip-path: none;
+                margin-top: 3rem;
+            }
+            
+            .story-content {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .collection-header h2,
+            .featured-header h2,
+            .story-text h2 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div class="loading-screen">
+      <div class="loading-text">TAXCO</div>
+  </div>
+  
+  <!-- Custom Cursor -->
+  <div class="custom-cursor"></div>
+  
+  <!-- Header -->
+  <header>
+      <div class="container">
+          <div class="header-content">
+              <a href="#" class="logo">TAXCO</a>
+              <nav class="nav-links">
+                  <a href="#" class="lang-es">Colecciones</a>
+                  <a href="#" class="lang-en hidden">Collections</a>
+                  <a href="#" class="lang-es">Nuestra Historia</a>
+                  <a href="#" class="lang-en hidden">Our Story</a>
+                  <a href="#" class="lang-es">Taller</a>
+                  <a href="#" class="lang-en hidden">Shop</a>
+                  <a href="#" class="lang-es">Diario</a>
+                  <a href="#" class="lang-en hidden">Journal</a>
+                  <a href="#" class="lang-es">Contacto</a>
+                  <a href="#" class="lang-en hidden">Contact</a>
+                  <div class="language-switch" id="toggleLanguage">
+                      <span class="lang-es">EN</span>
+                      <span class="lang-en hidden">ES</span>
+                  </div>
+              </nav>
+              <div class="mobile-menu">
+                  <i class="fas fa-bars"></i>
+              </div>
+          </div>
+      </div>
+  </header>
+  
+  <!-- Hero Section -->
+  <section class="hero">
+      <div class="container">
+          <div class="hero-content animate">
+              <h1 class="lang-es">Elegancia Atemporal, Perfección Artesanal</h1>
+              <h1 class="lang-en hidden">Timeless Elegance, Handcrafted Perfection</h1>
+              <p class="lang-es">Descubra nuestra exclusiva colección de joyería fina, donde el arte se une al lujo en cada pieza meticulosamente elaborada.</p>
+              <p class="lang-en hidden">Discover our exclusive collection of fine jewelry, where artistry meets luxury in every meticulously crafted piece.</p>
+              <a href="#" class="hero-btn lang-es">Explorar Colección</a>
+              <a href="#" class="hero-btn lang-en hidden">Explore Collection</a>
+          </div>
+      </div>
+      <div class="hero-image">
+          <img src="Pictures/necklaces/max-ducourneau-6uv43p1ePrk-unsplash.webp" alt="Collar elegante de oro con diamantes">
+      </div>
+  </section>
+  
+  <!-- Collection Section -->
+  <section class="collection">
+      <div class="container">
+          <div class="collection-header">
+              <h2 class="lang-es">Nuestras Colecciones</h2>
+              <h2 class="lang-en hidden">Our Collections</h2>
+              <p class="lang-es">Cada pieza cuenta una historia, reflejando belleza atemporal y artesanía excepcional que trasciende las tendencias.</p>
+              <p class="lang-en hidden">Each piece tells a story, reflecting timeless beauty and exceptional craftsmanship that transcends trends.</p>
+          </div>
+            <div class="collection-grid">
+              <a href="bracelets.html" style="text-decoration: none; color: inherit; display: block;">
+                <div class="collection-item">
+                    <img src="Pictures/bracelets/nataliya-melnychuk-oO0JAOJhquk-unsplash.webp" alt="Brazalete de oro">
+                    <div class="collection-item-info">
+                        <h3>Esclavas</h3>
+                        <p class="lang-es">Colección de Brazaletes</p>
+                        <p class="lang-en hidden">Bracelet Collection</p>
+                    </div>
+                </div>
+            </a>
+              <div class="collection-item">
+                  <img src="Pictures/earrings/daihana-monares-oWFPDjxuyUM-unsplash.webp" alt="Pendientes de diamantes">
+                  <div class="collection-item-info">
+                      <h3>Aretes</h3>
+                      <p class="lang-es">Colección de Pendientes</p>
+                      <p class="lang-en hidden">Earring Collection</p>
+                  </div>
+              </div>
+              <div class="collection-item">
+                  <img src="Pictures/rings/cornelia-ng-zZLhoEwGCeM-unsplash.webp" alt="Anillo con piedras preciosas">
+                  <div class="collection-item-info">
+                      <h3>Anillos</h3>
+                      <p class="lang-es">Colección de Anillos</p>
+                      <p class="lang-en hidden">Ring Collection</p>
+                  </div>
+              </div>
+              <div class="collection-item">
+                  <img src="Pictures/necklaces/juan-burgos-3_XeNGVbTQA-unsplash.webp" alt="Collar de perlas">
+                  <div class="collection-item-info">
+                      <h3>Cadenas</h3>
+                      <p class="lang-es">Colección de Collares</p>
+                      <p class="lang-en hidden">Necklace Collection</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+  
+  <!-- Featured Section -->
+  <section class="featured">
+      <div class="container">
+          <div class="featured-header">
+              <h2 class="lang-es">Pieza Destacada</h2>
+              <h2 class="lang-en hidden">Featured Piece</h2>
+          </div>
+          <div class="featured-content">
+              <div class="featured-image">
+                  <img src="Pictures/necklaces/kateryna-hliznitsova-ceSCZzjTReg-unsplash.webp" alt="Collar elegante de diamantes">
+              </div>
+              <div class="featured-text">
+                  <h3 class="lang-es">El Collar Aurora</h3>
+                  <h3 class="lang-en hidden">The Aurora Necklace</h3>
+                  <p class="lang-es">Inspirado en la belleza etérea de las auroras boreales, esta exquisita pieza presenta diamantes de origen ético engastados en oro de 18k. Cada gema es seleccionada meticulosamente por su excepcional claridad y brillo, creando un efecto cascada que captura la luz desde todos los ángulos.</p>
+                  <p class="lang-en hidden">Inspired by the ethereal beauty of northern lights, this exquisite piece features ethically sourced diamonds set in 18k gold. Each gem is meticulously selected for its exceptional clarity and brilliance, creating a cascading effect that catches light from every angle.</p>
+                  <p class="lang-es">Elaborado a mano por nuestros maestros artesanos utilizando técnicas tradicionales transmitidas de generación en generación, el Collar Aurora representa la perfecta armonía entre elegancia atemporal y diseño contemporáneo.</p>
+                  <p class="lang-en hidden">Handcrafted by our master artisans using traditional techniques passed down through generations, the Aurora Necklace represents the perfect harmony of timeless elegance and contemporary design.</p>
+                  <a href="#" class="featured-btn lang-es">Descubrir Más</a>
+                  <a href="#" class="featured-btn lang-en hidden">Discover More</a>
+              </div>
+          </div>
+      </div>
+  </section>
+  
+  <!-- Story Section -->
+  <section class="story">
+      <div class="container">
+          <div class="story-content">
+              <div class="story-text">
+                  <h2 class="lang-es">Nuestro Atelier</h2>
+                  <h2 class="lang-en hidden">Our Atelier</h2>
+                  <p class="lang-es">Durante más de tres décadas, nuestro atelier se ha dedicado a la búsqueda de la perfección en la artesanía de joyería. Ubicado en el corazón de París, nuestro taller reúne a los mejores artesanos que combinan técnicas tradicionales con enfoques innovadores.</p>
+                  <p class="lang-en hidden">For over three decades, our atelier has been dedicated to the pursuit of perfection in jewelry craftsmanship. Located in the heart of Paris, our workshop brings together the finest artisans who combine traditional techniques with innovative approaches.</p>
+                  <p class="lang-es">Cada creación comienza con una visión, meticulosamente desarrollada a través de bocetos y renderizados antes de tomar forma física. Nuestros gemólogos viajan por el mundo para conseguir las piedras más excepcionales, asegurando que cada pieza no solo cumpla sino que supere nuestros rigurosos estándares de calidad y abastecimiento ético.</p>
+                  <p class="lang-en hidden">Each creation begins with a vision, meticulously developed through sketches and renderings before taking physical form. Our gemologists travel the world to source the most exceptional stones, ensuring that every piece not only meets but exceeds our rigorous standards of quality and ethical sourcing.</p>
+                  <p class="lang-es">Le invitamos a experimentar la diferencia TAXCO – donde la pasión por la belleza, la calidad sin compromisos y la visión artística convergen para crear joyas que se convierten en parte de su historia personal.</p>
+                  <p class="lang-en hidden">We invite you to experience the TAXCO difference – where passion for beauty, uncompromising quality, and artistic vision converge to create jewelry that becomes part of your personal story.</p>
+              </div>
+              <div class="story-images">
+                  <div class="story-image">
+                      <img src="Pictures/jewelryShop/dillon-wanner-Z9Q-DTGoMIU-unsplash.webp" alt="Taller de joyería">
+                  </div>
+                  <div class="story-image">
+                      <img src="Pictures/working/amy-vann-85-6iMn5L8g-unsplash.webp" alt="Joyero trabajando">
+                  </div>
+                  <div class="story-image">
+                      <img src="Pictures/gems/sabrianna-jYVvmAi4u8c-unsplash.webp" alt="Piedras preciosas">
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+  
+  <!-- Newsletter -->
+  <section class="newsletter">
+      <div class="container">
+          <h2 class="lang-es">Únase a Nuestro Mundo</h2>
+          <h2 class="lang-en hidden">Join Our World</h2>
+          <p class="lang-es">Suscríbase para recibir actualizaciones exclusivas, ofertas especiales y conocimientos sobre el arte de la joyería fina.</p>
+          <p class="lang-en hidden">Subscribe to receive exclusive updates, special offers, and insights into the art of fine jewelry.</p>
+          <form class="newsletter-form">
+              <input type="email" placeholder="Su dirección de correo electrónico" class="lang-es">
+              <input type="email" placeholder="Your email address" class="lang-en hidden">
+              <button type="submit" class="lang-es">Suscribirse</button>
+              <button type="submit" class="lang-en hidden">Subscribe</button>
+          </form>
+      </div>
+  </section>
+  
+  <!-- Footer -->
+  <footer>
+      <div class="container">
+          <div class="footer-content">
+              <div>
+                  <div class="footer-logo">TAXCO</div>
+                  <p class="footer-text lang-es">Creamos joyería excepcional que celebra los momentos más preciados de la vida a través de una elegancia atemporal y una artesanía sin igual.</p>
+                  <p class="footer-text lang-en hidden">Crafting exceptional jewelry that celebrates life's most precious moments through timeless elegance and unparalleled craftsmanship.</p>
+                  <div class="footer-social">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                </div>
+            </div>
+            <div>
+                <h3 class="footer-title lang-es">Colecciones</h3>
+                <h3 class="footer-title lang-en hidden">Collections</h3>
+                <div class="footer-links">
+                    <a href="bracelets.html" class="lang-es">Collares</a>
+                    <a href="#" class="lang-en hidden">Necklaces</a>
+                    <a href="#" class="lang-es">Pendientes</a>
+                    <a href="#" class="lang-en hidden">Earrings</a>
+                    <a href="#" class="lang-es">Brazaletes</a>
+                    <a href="#" class="lang-en hidden">Bracelets</a>
+                    <a href="#" class="lang-es">Anillos</a>
+                    <a href="#" class="lang-en hidden">Rings</a>
+                    <a href="#" class="lang-es">Personalizados</a>
+                    <a href="#" class="lang-en hidden">Bespoke</a>
+                </div>
+            </div>
+            <div>
+                <h3 class="footer-title lang-es">Acerca de</h3>
+                <h3 class="footer-title lang-en hidden">About</h3>
+                <div class="footer-links">
+                    <a href="#" class="lang-es">Nuestra Historia</a>
+                    <a href="#" class="lang-en hidden">Our Story</a>
+                    <a href="#" class="lang-es">Artesanía</a>
+                    <a href="#" class="lang-en hidden">Craftsmanship</a>
+                    <a href="#" class="lang-es">Sostenibilidad</a>
+                    <a href="#" class="lang-en hidden">Sustainability</a>
+                    <a href="#" class="lang-es">Diario</a>
+                    <a href="#" class="lang-en hidden">Journal</a>
+                    <a href="#" class="lang-es">Prensa</a>
+                    <a href="#" class="lang-en hidden">Press</a>
+                </div>
+            </div>
+            <div>
+                <h3 class="footer-title lang-es">Contacto</h3>
+                <h3 class="footer-title lang-en hidden">Contact</h3>
+                <div class="footer-contact">
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div class="contact-text">123 Garnett Rd, Tulsa, OK, 74116</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                        <div class="contact-text">(918) 123-456</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <div class="contact-text">atelier@taxco-jewelry.com</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="lang-es">&copy; 2025 TAXCO Joyería Fina. Todos los derechos reservados.</p>
+            <p class="lang-en hidden">&copy; 2025 TAXCO Fine Jewelry. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Loading Screen
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            document.querySelector('.loading-screen').style.opacity = 0;
+            setTimeout(function() {
+                document.querySelector('.loading-screen').style.display = 'none';
+            }, 500);
+        }, 3000);
+    });
+    
+    // Custom Cursor
+    const cursor = document.querySelector('.custom-cursor');
+    
+    document.addEventListener('mousemove', function(e) {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+    });
+    
+    document.addEventListener('mouseover', function(e) {
+        if (e.target.tagName.toLowerCase() === 'a' || 
+            e.target.tagName.toLowerCase() === 'button' ||
+            e.target.classList.contains('collection-item')) {
+            cursor.classList.add('grow');
+        } else {
+            cursor.classList.remove('grow');
+        }
+    });
+    
+    // Language Toggle
+    const toggleLanguage = document.getElementById('toggleLanguage');
+    const esElements = document.querySelectorAll('.lang-es');
+    const enElements = document.querySelectorAll('.lang-en');
+    
+    toggleLanguage.addEventListener('click', function() {
+        esElements.forEach(el => el.classList.toggle('hidden'));
+        enElements.forEach(el => el.classList.toggle('hidden'));
+        
+        // Update HTML lang attribute
+        if (document.documentElement.lang === 'es') {
+            document.documentElement.lang = 'en';
+        } else {
+            document.documentElement.lang = 'es';
+        }
+    });
+    
+    // Parallax Effect
+    window.addEventListener('scroll', function() {
+        const scrollPosition = window.pageYOffset;
+        
+        // Header Transparency
+        const header = document.querySelector('header');
+        if (scrollPosition > 100) {
+            header.style.backgroundColor = 'rgba(248, 245, 242, 0.95)';
+        } else {
+            header.style.backgroundColor = 'rgba(248, 245, 242, 0.9)';
+        }
+        
+        // Animation on Scroll
+        const animateElements = document.querySelectorAll('.collection-header, .featured-header, .story-text');
+        animateElements.forEach(element => {
+            const elementPosition = element.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+            
+            if (elementPosition < windowHeight - 100) {
+                element.classList.add('animate');
+            }
+        });
+    });
+</script>
+</body>
+</html>

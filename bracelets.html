@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taxco | Colección Brazaletes</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@200;300;400;500&display=swap');
+        
+        :root {
+            --primary-color: #f8f5f2;
+            --secondary-color: #1a1a1a;
+            --accent-color: #c0aa83;
+            --text-color: #333333;
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+        
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 0;
+            z-index: 1000;
+            transition: var(--transition);
+            background-color: rgba(248, 245, 242, 0.9);
+            backdrop-filter: blur(10px);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            letter-spacing: 3px;
+            color: var(--secondary-color);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--text-color);
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .language-switch {
+            display: flex;
+            align-items: center;
+            margin-left: 2rem;
+            cursor: pointer;
+            padding: 0.3rem 0.8rem;
+            border: 1px solid var(--secondary-color);
+            transition: var(--transition);
+        }
+        
+        .language-switch:hover {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+        }
+        
+        .language-switch span {
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Gallery Section */
+        .gallery-section {
+            padding-top: 120px;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        .collection-title {
+            position: fixed;
+            top: 100px;
+            left: 5%;
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+            z-index: 100;
+        }
+        
+        .collection-subtitle {
+            position: fixed;
+            top: 170px;
+            left: 5%;
+            font-size: 1.2rem;
+            font-weight: 300;
+            color: var(--secondary-color);
+            opacity: 0.8;
+            z-index: 100;
+        }
+        
+        /* Gallery Container */
+        .gallery-container {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            cursor: grab;
+        }
+        
+        .gallery-container:active {
+            cursor: grabbing;
+        }
+        
+        .gallery-track {
+            display: flex;
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            transition: transform 0.4s ease;
+        }
+        
+        .gallery-slide {
+            position: relative;
+            flex: 0 0 auto;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 100px;
+        }
+        
+        .gallery-content {
+            display: flex;
+            flex-direction: column;
+            width: 90%;
+            max-width: 1400px;
+            height: 70vh;
+            position: relative;
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .product-info {
+            position: absolute;
+            bottom: -80px;
+            right: 0;
+            width: 400px;
+            background-color: white;
+            padding: 2rem;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+        
+        .gallery-slide.active .product-info {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .product-name {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-description {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            color: var(--accent-color);
+        }
+        
+        .product-btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            border: 1px solid var(--secondary-color);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: var(--transition);
+            background: transparent;
+        }
+        
+        .product-btn:hover {
+            background: var(--secondary-color);
+            color: var(--primary-color);
+        }
+        
+        /* Navigation Controls */
+        .gallery-nav {
+            position: fixed;
+            bottom: 40px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            z-index: 100;
+        }
+        
+        .gallery-dots {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .gallery-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-dot.active {
+            background-color: var(--secondary-color);
+        }
+        
+        .progress-container {
+            position: fixed;
+            bottom: 60px;
+            left: 5%;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .progress-bar {
+            width: 100px;
+            height: 1px;
+            background-color: rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        
+        .progress-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0;
+            background-color: var(--secondary-color);
+            transition: width 0.4s ease;
+        }
+        
+        .progress-text {
+            font-size: 0.8rem;
+            color: var(--secondary-color);
+        }
+        
+        /* Info Panel */
+        .info-panel {
+            position: fixed;
+            bottom: 40px;
+            right: 5%;
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+        
+        .info-btn {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--secondary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .info-btn:hover {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+        }
+        
+        /* Custom Cursor */
+        .custom-cursor {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            border: 1px solid var(--secondary-color);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
+            z-index: 9999;
+            mix-blend-mode: difference;
+        }
+        
+        .custom-cursor.grow {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .custom-cursor.drag {
+            width: 80px;
+            height: 80px;
+            border: 2px solid var(--secondary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .cursor-text {
+            font-size: 0.7rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            color: var(--secondary-color);
+            letter-spacing: 1px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .custom-cursor.drag .cursor-text {
+            opacity: 1;
+        }
+        
+        /* Loading Animation */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--primary-color);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s;
+        }
+        
+        .loading-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            color: var(--secondary-color);
+            position: relative;
+        }
+        
+        .loading-text::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--secondary-color);
+            animation: loadingBar 3s forwards;
+        }
+        
+        @keyframes loadingBar {
+            to {
+                width: 100%;
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .collection-title {
+                font-size: 3rem;
+            }
+            
+            .product-info {
+                width: 320px;
+                padding: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+            
+            .collection-title {
+                font-size: 2.5rem;
+                top: 90px;
+            }
+            
+            .collection-subtitle {
+                top: 140px;
+                font-size: 1rem;
+            }
+            
+            .product-info {
+                width: 280px;
+                padding: 1rem;
+            }
+            
+            .product-name {
+                font-size: 1.5rem;
+            }
+            
+            .product-description {
+                font-size: 0.8rem;
+            }
+            
+            .product-price {
+                font-size: 1rem;
+            }
+            
+            .product-btn {
+                padding: 0.6rem 1.5rem;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen">
+        <div class="loading-text">Brazaletes</div>
+    </div>
+    
+    <!-- Custom Cursor -->
+    <div class="custom-cursor">
+        <div class="cursor-text">Arrastrar</div>
+    </div>
+    
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">TAXCO</a>
+                <nav class="nav-links">
+                    <a href="#">Colecciones</a>
+                    <a href="#">Nuestra Historia</a>
+                    <a href="#">Atelier</a>
+                    <a href="#">Diario</a>
+                    <a href="#">Contacto</a>
+                    <div class="language-switch" id="toggleLanguage">
+                        <span>EN</span>
+                    </div>
+                </nav>
+                <div class="mobile-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Gallery Section -->
+    <section class="gallery-section">
+        <h1 class="collection-title">Brazalete</h1>
+        <p class="collection-subtitle">Colección de Brazaletes</p>
+        
+        <div class="gallery-container">
+            <div class="gallery-track">
+                <!-- Slide 1 -->
+                <div class="gallery-slide active" data-index="0">
+                    <div class="gallery-content">
+                        <img src="Pictures/bracelets/nataliya-melnychuk-oO0JAOJhquk-unsplash.webp" alt="Brazalete de oro con diamantes" class="product-image">
+                        <div class="product-info">
+                            <h3 class="product-name">Aurora Gold</h3>
+                            <p class="product-description">Brazalete de oro de 18k con diamantes de corte brillante engastados a mano. Diseñado para capturar la luz desde cualquier ángulo.</p>
+                            <p class="product-price">$3,950</p>
+                            <a href="#" class="product-btn">Ver Detalles</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Slide 2 -->
+                <div class="gallery-slide" data-index="1">
+                    <div class="gallery-content">
+                        <img src="Pictures/bracelets/sabrianna-2z7MxnXQs3k-unsplash.webp" alt="Brazalete de oro blanco con zafiros" class="product-image">
+                        <div class="product-info">
+                            <h3 class="product-name">Celestial Blue</h3>
+                            <p class="product-description">Brazalete de oro blanco de 18k con zafiros azules de Sri Lanka seleccionados a mano por su excepcional claridad y color.</p>
+                            <p class="product-price">$4,250</p>
+                            <a href="#" class="product-btn">Ver Detalles</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Slide 3 -->
+                <div class="gallery-slide" data-index="2">
+                    <div class="gallery-content">
+                        <img src="Pictures/bracelets/samar-ahmad--nKCbZlOHek-unsplash.webp" alt="Brazalete de oro rosa con rubíes" class="product-image">
+                        <div class="product-info">
+                            <h3 class="product-name">Crimson Cascade</h3>
+                            <p class="product-description">Brazalete de oro rosa de 18k con rubíes de Birmania engastados en un diseño de cascada fluida que se adapta elegantemente a la muñeca.</p>
+                            <p class="product-price">$5,100</p>
+                            <a href="#" class="product-btn">Ver Detalles</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Slide 4 -->
+                <div class="gallery-slide" data-index="3">
+                    <div class="gallery-content">
+                        <img src="Pictures/gems/sabrianna-AGinIdtyGMg-unsplash.webp" alt="Brazalete de platino con esmeraldas" class="product-image">
+                        <div class="product-info">
+                            <h3 class="product-name">Emerald Whisper</h3>
+                            <p class="product-description">Brazalete de platino con esmeraldas colombianas de talla baguette, creando un juego de luz que evoca la profundidad de un bosque.</p>
+                            <p class="product-price">$6,750</p>
+                            <a href="#" class="product-btn">Ver Detalles</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Slide 5 -->
+                <div class="gallery-slide" data-index="4">
+                    <div class="gallery-content">
+                        <img src="Pictures/gems/sabrianna-jYVvmAi4u8c-unsplash.webp" alt="Brazalete de oro negro con diamantes negros" class="product-image">
+                        <div class="product-info">
+                            <h3 class="product-name">Midnight Shadow</h3>
+                            <p class="product-description">Brazalete de oro negro de 18k con diamantes negros y blancos que crean un contraste dramático. Una pieza audaz para ocasiones especiales.</p>
+                            <p class="product-price">$4,800</p>
+                            <a href="#" class="product-btn">Ver Detalles</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Navigation Controls -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            <div class="progress-text">1/5</div>
+        </div>
+        
+        <div class="gallery-nav">
+            <div class="gallery-dots">
+                <div class="gallery-dot active" data-index="0"></div>
+                <div class="gallery-dot" data-index="1"></div>
+                <div class="gallery-dot" data-index="2"></div>
+                <div class="gallery-dot" data-index="3"></div>
+                <div class="gallery-dot" data-index="4"></div>
+            </div>
+        </div>
+        
+        <div class="info-panel">
+            <div class="info-btn">
+                <i class="fas fa-share-alt"></i>
+            </div>
+            <div class="info-btn">
+                <i class="fas fa-info"></i>
+            </div>
+        </div>
+    </section>
+    
+    <script>
+        // Loading Screen
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.querySelector('.loading-screen').style.opacity = 0;
+                setTimeout(function() {
+                    document.querySelector('.loading-screen').style.display = 'none';
+                }, 500);
+            }, 3000);
+        });
+        
+        // Custom Cursor
+        const cursor = document.querySelector('.custom-cursor');
+        
+        document.addEventListener('mousemove', function(e) {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+        
+        document.addEventListener('mouseover', function(e) {
+            if (e.target.tagName.toLowerCase() === 'a' || 
+                e.target.tagName.toLowerCase() === 'button' ||
+                e.target.classList.contains('info-btn') ||
+                e.target.classList.contains('gallery-dot')) {
+                cursor.classList.add('grow');
+                cursor.classList.remove('drag');
+            } else if (e.target.classList.contains('gallery-container') ||
+                       e.target.classList.contains('gallery-track') ||
+                       e.target.classList.contains('gallery-slide') ||
+                       e.target.classList.contains('gallery-content') ||
+                       e.target.classList.contains('product-image')) {
+                cursor.classList.add('drag');
+                cursor.classList.remove('grow');
+            } else {
+                cursor.classList.remove('grow');
+                cursor.classList.remove('drag');
+            }
+        });
+        
+        // Gallery Slider
+        const track = document.querySelector('.gallery-track');
+        const slides = Array.from(document.querySelectorAll('.gallery-slide'));
+        const dots = Array.from(document.querySelectorAll('.gallery-dot'));
+        const progressFill = document.querySelector('.progress-fill');
+        const progressText = document.querySelector('.progress-text');
+        
+        let isDragging = false;
+        let startPosition = 0;
+        let currentTranslate = 0;
+        let prevTranslate = 0;
+        let animationID = 0;
+        let currentIndex = 0;
+        
+        // Update UI based on current index
+        function updateUI() {
+            // Update active slide
+            slides.forEach((slide, index) => {
+                if (index === currentIndex) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+            
+            // Update dots
+            dots.forEach((dot, index) => {
+                if (index === currentIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+            
+            // Update progress
+            const progress = ((currentIndex + 1) / slides.length) * 100;
+            progressFill.style.width = `${progress}%`;
+            progressText.textContent = `${currentIndex + 1}/${slides.length}`;
+        }
+        
+        // Set position by index
+        function setPositionByIndex() {
+            currentTranslate = currentIndex * -window.innerWidth;
+            prevTranslate = currentTranslate;
+            setSliderPosition();
+        }
+        
+        // Set slider position
+        function setSliderPosition() {
+            track.style.transform = `translateX(${currentTranslate}px)`;
+        }
+        
+        // Touch Start
+        function touchStart(event) {
+            const touch = event.type.includes('mouse') ? event : event.touches[0];
+            startPosition = touch.clientX;
+            isDragging = true;
+            
+            animationID = requestAnimationFrame(animation);
+        }
+        
+        // Touch Move
+        function touchMove(event) {
+            if (isDragging) {
+                const touch = event.type.includes('mouse') ? event : event.touches[0];
+                const currentPosition = touch.clientX;
+                const diff = currentPosition - startPosition;
+                
+                currentTranslate = prevTranslate + diff;
+            }
+        }
+        
+        // Touch End
+        function touchEnd() {
+            cancelAnimationFrame(animationID);
+            isDragging = false;
+            
+            const moveBy = currentTranslate - prevTranslate;
+            
+            // If moved enough negative, move to next slide
+            if (moveBy < -100 && currentIndex < slides.length - 1) {
+                currentIndex += 1;
+            }
+            
+            // If moved enough positive, move to previous slide
+            if (moveBy > 100 && currentIndex > 0) {
+                currentIndex -= 1;
+            }
+            
+            setPositionByIndex();
+            updateUI();
+        }
+        
+        // Animation
+        function animation() {
+            setSliderPosition();
+            if (isDragging) requestAnimationFrame(animation);
+        }
+        
+        // Event Listeners for Gallery
+        slides.forEach(slide => {
+            // Touch events
+            slide.addEventListener('touchstart', touchStart);
+            slide.addEventListener('touchmove', touchMove);
+            slide.addEventListener('touchend', touchEnd);
+            
+            // Mouse events
+            slide.addEventListener('mousedown', touchStart);
+            slide.addEventListener('mousemove', touchMove);
+            slide.addEventListener('mouseup', touchEnd);
+            slide.addEventListener('mouseleave', touchEnd);
+            
+            // Prevent context menu
+            slide.addEventListener('contextmenu', e => e.preventDefault());
+        });
+        
+        // Dot navigation
+        dots.forEach(dot => {
+            dot.addEventListener('click', function() {
+                currentIndex = parseInt(this.getAttribute('data-index'));
+                setPositionByIndex();
+                updateUI();
+            });
+        });
+        
+        // Window resize
+        window.addEventListener('resize', () => {
+            setPositionByIndex();
+        });
+        
+        // Initialize
+        updateUI();
+    </script>
+</body>
+</html>
